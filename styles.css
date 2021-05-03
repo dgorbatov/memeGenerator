@@ -37,7 +37,6 @@ button {
   width: 200px;
   margin-top: 28vh;
   flex-direction: column;
-  text-align: center;
 }
 
 button:hover {
@@ -59,7 +58,6 @@ section {
   display: flex;
   justify-content: center;
 }
-
 
 .hidden {
   display: none;
