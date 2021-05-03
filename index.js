@@ -10,7 +10,7 @@
  "use strict";
 
  (function() {
-   const URL = "https://api.imgflip.com/get_memes";
+   const URL = "https://api.imgflip.com/get_memesa";
 
    /**
     * Add a function that will be called when the window is loaded.
@@ -21,7 +21,8 @@
     * CHANGE: Describe what your init function does here.
     */
    function init() {
-     id("refresh").addEventListener("click", restartMemes);
+     id("refresh").addEventListener("click", displayFirstMeme);
+     id("refresh").classList.add("hidden");
      loadMemes();
    }
 
@@ -48,6 +49,29 @@
      newImg.src = meme.url;
      newImg.alt = meme.name;
 
+     let windowHeight = window.innerHeight * 0.6;
+     let windowWidth = window.innerWidth * 0.6;
+
+     if (meme.width >= windowWidth) {
+      let width = findNumber(meme.width, windowWidth);
+      let newHeight = meme.height * (width / meme.width);
+
+      if (width != undefined) {
+        newImg.width = width;
+        newImg.height = newHeight;
+      }
+    }
+
+    if (meme.height >= windowHeight) {
+      let height = findNumber(meme.height, windowHeight);
+      let newWidth = meme.width * (height / meme.height);
+
+      if (height != undefined) {
+        newImg.height = height;
+        newImg.width = newWidth;
+      }
+    }
+
      newText.textContent = meme.name;
 
      newArticle.appendChild(newImg);
@@ -58,17 +82,33 @@
      id("memes").appendChild(newArticle);
    }
 
+
+   function findNumber(currentNumber, desiredNumber) {
+    let width = currentNumber;
+
+    if (desiredNumber > 0 && currentNumber >= desiredNumber) {
+      let percentage = 1;
+      width = currentNumber;
+
+      while (width >= desiredNumber) {
+        width = currentNumber * percentage;
+        percentage = percentage- 0.01;
+      }
+    }
+
+    return width;
+   }
+
    function changeMemes() {
      let memeIndex = getCurrentMemeIndex();
 
      if (memeIndex == -1) {
-      id("memes").firstElementChild.classList.remove("hidden");
-      id("memes").firstElementChild.addEventListener("click", changeMemes);
+       displayFirstMeme();
      } else if (memeIndex == countMemes()-1) {
       id("memes").lastElementChild.classList.add("hidden");
       id("memes").lastElementChild.removeEventListener("click", changeMemes);
 
-      id("reload").classList.remove("hidden");
+      id("refresh").classList.remove("hidden");
      } else {
 
       id("memes").children[memeIndex].classList.add("hidden");
@@ -79,8 +119,9 @@
      }
    }
 
-   function restartMemes() {
-     console.log("Hi!");
+   function displayFirstMeme() {
+    id("memes").firstElementChild.classList.remove("hidden");
+    id("memes").firstElementChild.addEventListener("click", changeMemes);
    }
 
    function getCurrentMemeIndex() {
@@ -100,7 +141,14 @@
    }
 
    function handleError(err) {
-    console.error(err);
+    let newArticle = gen("article");
+    let newText = gen("p");
+
+    newText.textContent = "Error: " + err;
+
+    newArticle.appendChild(newText);
+
+    id("memes").appendChild(newArticle);
    }
 
    async function statusCheck(response) {

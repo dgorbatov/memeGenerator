@@ -1,0 +1,17 @@
+main {
+  width: 70%;
+}
+
+main > h1 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 100px;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+article > p {
+  font-size: 25px;
+}
