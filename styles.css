@@ -32,9 +32,9 @@ button {
   border: none;
   color: black;
   text-align: center;
-  font-size: 16px;
+  font-size: 32px;
   padding: 18px;
-  width: 200px;
+  width: 250px;
   margin-top: 28vh;
   flex-direction: column;
 }
