@@ -11,6 +11,8 @@
 
 (function() {
   const URL = "https://api.imgflip.com/get_memes";
+  const MAX_WIDTH = 0.6;
+  const MAX_HEIGHT = 0.6;
 
   window.addEventListener("load", init);
 
@@ -45,24 +47,7 @@
     newImg.src = meme.url;
     newImg.alt = meme.name;
 
-    let windowHeight = window.innerHeight * 0.6;
-    let windowWidth = window.innerWidth * 0.6;
-
-    let width = findNumber(meme.width, windowWidth);
-    let newHeight = meme.height * (width / meme.width);
-
-    if (width !== undefined) {
-      newImg.width = width;
-      newImg.height = newHeight;
-    }
-
-    let height = findNumber(meme.height, windowHeight);
-    let newWidth = meme.width * (height / meme.height);
-
-    if (height !== undefined) {
-      newImg.height = height;
-      newImg.width = newWidth;
-    }
+    newImg = scaleWidthHeight(newImg, meme);
 
     newText.textContent = meme.name;
 
@@ -74,30 +59,18 @@
     id("memes").appendChild(newArticle);
   }
 
+  function scaleWidthHeight (newImg, meme) {
+    newImg.width = findNumber(meme.width, window.innerWidth * MAX_WIDTH);
+    newImg.height = meme.height * (newImg.width / meme.width);
+
+    newImg.height = findNumber(meme.height, window.innerHeight * MAX_HEIGHT);
+    newImg.width = meme.width * (newImg.height / meme.height);
+
+    return newImg;
+  }
+
   function findNumber(currentNumber, desiredNumber) {
-    let width = currentNumber;
-
-    if (desiredNumber > 0) {
-      if (currentNumber >= desiredNumber) {
-        let percentage = 1;
-        width = currentNumber;
-
-        while (width >= desiredNumber) {
-          width = currentNumber * percentage;
-          percentage = percentage - 0.01;
-        }
-      } else if (currentNumber < desiredNumber) {
-        let percentage = 1;
-        width = currentNumber;
-
-        while (width < desiredNumber) {
-          width = currentNumber * percentage;
-          percentage = percentage + 0.01;
-        }
-      }
-    }
-
-    return width;
+    return (desiredNumber / currentNumber) * currentNumber;
   }
 
   function changeMemes() {
@@ -151,9 +124,9 @@
     newArticle.appendChild(newText);
 
     id("memes").appendChild(newArticle);
-    }
+  }
 
-    async function statusCheck(response) {
+  async function statusCheck(response) {
     if (!response.ok) {
       throw new Error(await response.text());
     }
