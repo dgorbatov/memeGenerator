@@ -20,11 +20,11 @@
 
   function loadMemes() {
     fetch(URL)
-    .then(statusCheck)
-    .then(resp => resp.json())
-    .then(addMemes)
-    .then(changeMemes)
-    .catch(handleError);
+      .then(statusCheck)
+      .then(resp => resp.json())
+      .then(addMemes)
+      .then(changeMemes)
+      .catch(handleError);
 
     id("refresh").classList.add("hidden");
     id("refresh").addEventListener("click", displayFirstMeme);
@@ -51,7 +51,7 @@
     let width = findNumber(meme.width, windowWidth);
     let newHeight = meme.height * (width / meme.width);
 
-    if (width != undefined) {
+    if (width !== undefined) {
       newImg.width = width;
       newImg.height = newHeight;
     }
@@ -59,7 +59,7 @@
     let height = findNumber(meme.height, windowHeight);
     let newWidth = meme.width * (height / meme.height);
 
-    if (height != undefined) {
+    if (height !== undefined) {
       newImg.height = height;
       newImg.width = newWidth;
     }
@@ -74,18 +74,17 @@
     id("memes").appendChild(newArticle);
   }
 
-
   function findNumber(currentNumber, desiredNumber) {
     let width = currentNumber;
 
-    if (desiredNumber > 0 ) {
+    if (desiredNumber > 0) {
       if (currentNumber >= desiredNumber) {
         let percentage = 1;
         width = currentNumber;
 
         while (width >= desiredNumber) {
           width = currentNumber * percentage;
-          percentage = percentage- 0.01;
+          percentage = percentage - 0.01;
         }
       } else if (currentNumber < desiredNumber) {
         let percentage = 1;
@@ -104,9 +103,9 @@
   function changeMemes() {
     let memeIndex = getCurrentMemeIndex();
 
-    if (memeIndex == -1) {
+    if (memeIndex === -1) {
       displayFirstMeme();
-    } else if (memeIndex == countMemes()-1) {
+    } else if (memeIndex === countMemes() - 1) {
       id("memes").lastElementChild.classList.add("hidden");
       id("memes").lastElementChild.removeEventListener("click", changeMemes);
 
@@ -116,8 +115,8 @@
       id("memes").children[memeIndex].classList.add("hidden");
       id("memes").children[memeIndex].removeEventListener("click", changeMemes);
 
-      id("memes").children[memeIndex+1].classList.remove("hidden");
-      id("memes").children[memeIndex+1].addEventListener("click", changeMemes);
+      id("memes").children[memeIndex + 1].classList.remove("hidden");
+      id("memes").children[memeIndex + 1].addEventListener("click", changeMemes);
     }
   }
 
@@ -130,7 +129,7 @@
   function getCurrentMemeIndex() {
     let index = -1;
 
-    for (let i=0; i < id("memes").children.length; ++i) {
+    for (let i = 0; i < id("memes").children.length; ++i) {
       if (!id("memes").children[i].classList.contains("hidden")) {
         index = i;
       }
@@ -139,62 +138,62 @@
     return index;
   }
 
-  function countMemes(){
+  function countMemes() {
     return id("memes").children.length;
   }
 
   function handleError(err) {
-  let newArticle = gen("article");
-  let newText = gen("p");
+    let newArticle = gen("article");
+    let newText = gen("p");
 
-  newText.textContent = "Error: " + err;
+    newText.textContent = "Error: " + err;
 
-  newArticle.appendChild(newText);
+    newArticle.appendChild(newText);
 
-  id("memes").appendChild(newArticle);
+    id("memes").appendChild(newArticle);
+    }
+
+    async function statusCheck(response) {
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+    return response;
   }
-
-  async function statusCheck(response) {
-  if (!response.ok) {
-    throw new Error(await response.text());
-  }
-  return response;
-}
 
   /** ------------------------------ Helper Functions  ------------------------------ */
 
   /**
-  * Returns the element that has the ID attribute with the specified value.
-  * @param {string} idName - element ID
-  * @returns {object} DOM object associated with id.
-  */
+   * Returns the element that has the ID attribute with the specified value.
+   * @param {string} idName - element ID
+   * @returns {object} DOM object associated with id.
+   */
   function id(idName) {
     return document.getElementById(idName);
   }
 
   /**
-  * Returns the first element that matches the given CSS selector.
-  * @param {string} selector - CSS query selector.
-  * @returns {object} The first DOM object matching the query.
-  */
+   * Returns the first element that matches the given CSS selector.
+   * @param {string} selector - CSS query selector.
+   * @returns {object} The first DOM object matching the query.
+   */
   function qs(selector) {
     return document.querySelector(selector);
   }
 
   /**
-  * Returns the array of elements that match the given CSS selector.
-  * @param {string} selector - CSS query selector
-  * @returns {object[]} array of DOM objects matching the query.
-  */
+   * Returns the array of elements that match the given CSS selector.
+   * @param {string} selector - CSS query selector
+   * @returns {object[]} array of DOM objects matching the query.
+   */
   function qsa(selector) {
     return document.querySelectorAll(selector);
   }
 
   /**
-  * Returns a new element with the given tag name.
-  * @param {string} tagName - HTML tag name for new DOM element.
-  * @returns {object} New DOM object for given HTML tag.
-  */
+   * Returns a new element with the given tag name.
+   * @param {string} tagName - HTML tag name for new DOM element.
+   * @returns {object} New DOM object for given HTML tag.
+   */
   function gen(tagName) {
     return document.createElement(tagName);
   }
