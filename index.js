@@ -1,25 +1,34 @@
 /**
- * Name: _your name here_
- * Date: _add date here_
- * Section: CSE 154 _your section here_
+ * Name: Daniel Gorbatov
+ * Date:5/4/21
+ * Section: CSE 154 AO
  *
  * -- your description of what this file does here --
- * Do not keep comments from this template in any work you submit (functions included under "Helper
- * functions" are an exception, you may keep the function names/comments of id/qs/qsa/gen)
  */
 "use strict";
 
 (function() {
+  //This is the url for the meme api
   const URL = "https://api.imgflip.com/get_memes";
+
+  //This is the percentage of the window width that a meme can take up
   const MAX_WIDTH = 0.6;
+
+  //This is the percentage of the window height that a meme can take up
   const MAX_HEIGHT = 0.6;
 
   window.addEventListener("load", init);
 
+  /**
+   * This is the init function it gets called when the window loads
+   */
   function init() {
     id("refresh").addEventListener("click", loadMemes);
   }
 
+  /**
+   * Loads memes from the meme api
+   */
   function loadMemes() {
     fetch(URL)
       .then(statusCheck)
@@ -33,12 +42,20 @@
     id("refresh").removeEventListener("click", loadMemes);
   }
 
+  /**
+   * Adds all the memes to the page
+   * @param {Object} memes - a json object that contains a collection of memes
+   */
   function addMemes(memes) {
     for (let meme of memes.data.memes) {
       addMeme(meme);
     }
   }
 
+  /**
+   * Adds one meme to the page
+   * @param {Object} meme - the meme that is being added to the page
+   */
   function addMeme(meme) {
     let newArticle = gen("article");
     let newImg = gen("img");
@@ -59,20 +76,25 @@
     id("memes").appendChild(newArticle);
   }
 
+  /**
+   * Scales the height and width so that the image fits on the screen
+   * @param {Object} newImg - the meme image
+   * @param {Object} meme - the meme json object
+   * @returns
+   */
   function scaleWidthHeight (newImg, meme) {
-    newImg.width = findNumber(meme.width, window.innerWidth * MAX_WIDTH);
+    newImg.width = window.innerWidth * MAX_WIDTH;
     newImg.height = meme.height * (newImg.width / meme.width);
 
-    newImg.height = findNumber(meme.height, window.innerHeight * MAX_HEIGHT);
+    newImg.height = window.innerHeight * MAX_HEIGHT;
     newImg.width = meme.width * (newImg.height / meme.height);
 
     return newImg;
   }
 
-  function findNumber(currentNumber, desiredNumber) {
-    return (desiredNumber / currentNumber) * currentNumber;
-  }
-
+  /**
+   * Displays the next meme in the list
+   */
   function changeMemes() {
     let memeIndex = getCurrentMemeIndex();
 
@@ -93,12 +115,19 @@
     }
   }
 
+  /**
+   * Displays the first meme in the list
+   */
   function displayFirstMeme() {
     id("refresh").classList.add("hidden");
     id("memes").firstElementChild.classList.remove("hidden");
     id("memes").firstElementChild.addEventListener("click", changeMemes);
   }
 
+  /**
+   * Finds the index of the meme that is currently displayed
+   * @returns {Number} - the index of the displayed meme
+   */
   function getCurrentMemeIndex() {
     let index = -1;
 
@@ -111,11 +140,20 @@
     return index;
   }
 
+  /**
+   * Finds the number of memes
+   * @returns {Number} - number of memes
+   */
   function countMemes() {
     return id("memes").children.length;
   }
 
+  /**
+   * Displays the error in a text box so that the user can see it
+   * @param {Object} err - the error that is thrown
+   */
   function handleError(err) {
+    console.log(typeof err);
     let newArticle = gen("article");
     let newText = gen("p");
 
@@ -126,14 +164,19 @@
     id("memes").appendChild(newArticle);
   }
 
+  /** ------------------------------ Helper Functions  ------------------------------ */
+
+  /**
+   * Checks the status of the fetch request
+   * @param {Object} response - the response from the fetch
+   * @returns - returns an error, or the response
+   */
   async function statusCheck(response) {
     if (!response.ok) {
       throw new Error(await response.text());
     }
     return response;
   }
-
-  /** ------------------------------ Helper Functions  ------------------------------ */
 
   /**
    * Returns the element that has the ID attribute with the specified value.
