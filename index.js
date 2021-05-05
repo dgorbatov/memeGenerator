@@ -8,13 +8,13 @@
 "use strict";
 
 (function() {
-  //This is the url for the meme api
+  // This is the url for the meme api
   const URL = "https://api.imgflip.com/get_memes";
 
-  //This is the percentage of the window width that a meme can take up
+  // This is the percentage of the window width that a meme can take up
   const MAX_WIDTH = 0.6;
 
-  //This is the percentage of the window height that a meme can take up
+  // This is the percentage of the window height that a meme can take up
   const MAX_HEIGHT = 0.6;
 
   window.addEventListener("load", init);
@@ -80,9 +80,9 @@
    * Scales the height and width so that the image fits on the screen
    * @param {Object} newImg - the meme image
    * @param {Object} meme - the meme json object
-   * @returns
+   * @returns {Object} - the new image with scaled width and height
    */
-  function scaleWidthHeight (newImg, meme) {
+  function scaleWidthHeight(newImg, meme) {
     newImg.width = window.innerWidth * MAX_WIDTH;
     newImg.height = meme.height * (newImg.width / meme.width);
 
@@ -153,7 +153,6 @@
    * @param {Object} err - the error that is thrown
    */
   function handleError(err) {
-    console.log(typeof err);
     let newArticle = gen("article");
     let newText = gen("p");
 
@@ -169,7 +168,7 @@
   /**
    * Checks the status of the fetch request
    * @param {Object} response - the response from the fetch
-   * @returns - returns an error, or the response
+   * @returns {Object} - returns an error, or the response
    */
   async function statusCheck(response) {
     if (!response.ok) {
@@ -185,24 +184,6 @@
    */
   function id(idName) {
     return document.getElementById(idName);
-  }
-
-  /**
-   * Returns the first element that matches the given CSS selector.
-   * @param {string} selector - CSS query selector.
-   * @returns {object} The first DOM object matching the query.
-   */
-  function qs(selector) {
-    return document.querySelector(selector);
-  }
-
-  /**
-   * Returns the array of elements that match the given CSS selector.
-   * @param {string} selector - CSS query selector
-   * @returns {object[]} array of DOM objects matching the query.
-   */
-  function qsa(selector) {
-    return document.querySelectorAll(selector);
   }
 
   /**
