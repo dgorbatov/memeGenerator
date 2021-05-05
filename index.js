@@ -3,12 +3,13 @@
  * Date:5/4/21
  * Section: CSE 154 AO
  *
- * -- your description of what this file does here --
+ * This file provides the interactivity for the index.html website. It fetches
+ * memes from the memes api, and makes it possible to cycle through the memes
  */
 "use strict";
 
 (function() {
-  // This is the url for the meme api
+  // This is the url for the meme api (https://imgflip.com/api)
   const URL = "https://api.imgflip.com/get_memes";
 
   // This is the percentage of the window width that a meme can take up
