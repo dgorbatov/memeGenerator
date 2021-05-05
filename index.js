@@ -12,9 +12,6 @@
   // This is the url for the meme api (https://imgflip.com/api)
   const URL = "https://api.imgflip.com/get_memes";
 
-  // This is the percentage of the window width that a meme can take up
-  const MAX_WIDTH = 0.6;
-
   // This is the percentage of the window height that a meme can take up
   const MAX_HEIGHT = 0.6;
 
