@@ -91,11 +91,6 @@
    * @returns {Object} - the new image with scaled width and height
    */
   function scaleWidthHeight(newImg, meme) {
-    // Adjusts the width of the image
-    newImg.width = window.innerWidth * MAX_WIDTH;
-    newImg.height = meme.height * (newImg.width / meme.width);
-
-    // Adjusts the height of the image
     newImg.height = window.innerHeight * MAX_HEIGHT;
     newImg.width = meme.width * (newImg.height / meme.height);
 
