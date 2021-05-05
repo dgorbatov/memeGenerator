@@ -24,6 +24,7 @@
    * This is the init function it gets called when the window loads
    */
   function init() {
+    // Makes it so that the button load memes when it is clicked
     id("refresh").addEventListener("click", loadMemes);
   }
 
@@ -38,7 +39,10 @@
       .then(changeMemes)
       .catch(handleError);
 
+    // Hides the refresh button
     id("refresh").classList.add("hidden");
+
+    // Set it up so that the refresh button goes to the first meme instead of loading new memes
     id("refresh").addEventListener("click", displayFirstMeme);
     id("refresh").removeEventListener("click", loadMemes);
   }
@@ -48,6 +52,7 @@
    * @param {Object} memes - a json object that contains a collection of memes
    */
   function addMemes(memes) {
+    // Add meme
     for (let meme of memes.data.memes) {
       addMeme(meme);
     }
@@ -65,6 +70,7 @@
     newImg.src = meme.url;
     newImg.alt = meme.name;
 
+    // Make sure that the image fits the page
     newImg = scaleWidthHeight(newImg, meme);
 
     newText.textContent = meme.name;
@@ -72,6 +78,7 @@
     newArticle.appendChild(newImg);
     newArticle.appendChild(newText);
 
+    // Hide the meme
     newArticle.classList.add("hidden");
 
     id("memes").appendChild(newArticle);
@@ -84,9 +91,11 @@
    * @returns {Object} - the new image with scaled width and height
    */
   function scaleWidthHeight(newImg, meme) {
+    // Adjusts the width of the image
     newImg.width = window.innerWidth * MAX_WIDTH;
     newImg.height = meme.height * (newImg.width / meme.width);
 
+    // Adjusts the height of the image
     newImg.height = window.innerHeight * MAX_HEIGHT;
     newImg.width = meme.width * (newImg.height / meme.height);
 
@@ -100,14 +109,17 @@
     let memeIndex = getCurrentMemeIndex();
 
     if (memeIndex === -1) {
+      // No memes displayed
       displayFirstMeme();
     } else if (memeIndex === countMemes() - 1) {
+      // Last meme
       id("memes").lastElementChild.classList.add("hidden");
       id("memes").lastElementChild.removeEventListener("click", changeMemes);
 
+      // Show the refresh the button
       id("refresh").classList.remove("hidden");
     } else {
-
+      // Display next meme
       id("memes").children[memeIndex].classList.add("hidden");
       id("memes").children[memeIndex].removeEventListener("click", changeMemes);
 
