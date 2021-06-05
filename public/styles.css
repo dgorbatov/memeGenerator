@@ -56,6 +56,9 @@ button {
   width: 250px;
   margin-top: 28vh;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
 }
 
 button:hover {
@@ -74,6 +77,12 @@ article {
 section {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+section p {
+  width: 700px;
 }
 
 .hidden {

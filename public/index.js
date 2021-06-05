@@ -29,19 +29,18 @@
    * Loads memes from the meme api
    */
   function loadMemes() {
+    id("intro").classList.add("hidden");
+
+    // Set it up so that the refresh button goes to the first meme instead of loading new memes
+    id("refresh").addEventListener("click", displayFirstMeme);
+    id("refresh").removeEventListener("click", loadMemes);
+
     fetch(URL)
       .then(statusCheck)
       .then(resp => resp.json())
       .then(addMemes)
       .then(changeMemes)
       .catch(handleError);
-
-    // Hides the refresh button
-    id("refresh").classList.add("hidden");
-
-    // Set it up so that the refresh button goes to the first meme instead of loading new memes
-    id("refresh").addEventListener("click", displayFirstMeme);
-    id("refresh").removeEventListener("click", loadMemes);
   }
 
   /**

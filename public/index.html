@@ -10,10 +10,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>CP3</title>
+    <title>Meme Generator</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/8.6.5/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
     <script src="index.js"></script>
   </head>
 
@@ -27,7 +38,13 @@
       <!-- All memes were taken from the following API https://imgflip.com/api-->
       <section id="memes">
       </section>
-      <section>
+      <section id="intro">
+        <h1>Welcome!</h1>
+        <p>This sight was designed by me(Daniel Gorbatov). It uses memes from the meme api
+          and was originally created for me to familiarize myself with API's however I have now
+          modified it to be hosted on Firebase! For more of my work
+          go to my <a href="https://danielgorbatovportfolio.web.app/">portfolio website</a>
+        </p>
         <button id="refresh">Load Memes</button>
       </section>
     </main>
